@@ -2,8 +2,8 @@
   "name": "youyou",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "dev": "vite --mode dev",
+    "build": "vue-tsc --noEmit && vite build --mode online",
     "preview": "vite preview"
   },
   "dependencies": {
