@@ -10,41 +10,38 @@
     </div>
 </template>
 <script>
-import { reactive } from 'vue';
+import { reactive } from "vue";
 export default {
+    name: "topPage",
     setup() {
-        const baseTime = 1672502400000;
         const state = reactive({
-            timer: '-天-时-分-秒'
-        })
+            timer: "-天-时-分-秒"
+        });
         return {
-            state,
-            baseTime
-        }
-    },
-    computed: {
-
+            state
+        };
     },
     created() {
         this.runTime();
     },
     methods: {
         runTime() {
+            let start_time = parseInt(this.$store.state.homePage?.start_time);
             setInterval(() => {
-                let now = new Date().getTime();
-                let usedTime = now - this.baseTime; // 相差的毫秒数
+                let end_time = new Date().getTime();
+                let usedTime = end_time - start_time; // 相差的毫秒数
                 let days = Math.floor(usedTime / (24 * 3600 * 1000)); // 计算出天数
                 let leave = usedTime % (24 * 3600 * 1000); // 计算天数后剩余的时间
                 let hours = Math.floor(leave / (3600 * 1000)); // 计算剩余的小时数
                 let leave2 = leave % (3600 * 1000); // 计算剩余小时后剩余的毫秒数
                 let minutes = Math.floor(leave2 / (60 * 1000)); // 计算剩余的分钟数
-                let leave3=leave2%(60*1000)      //计算分钟数后剩余的毫秒数
-                let seconds=Math.round(leave3/1000)
-                this.state.timer = days + '天' + hours + '时' + minutes + '分' + seconds + '秒';
+                let leave3=leave2%(60*1000);    //计算分钟数后剩余的毫秒数
+                let seconds=Math.round(leave3/1000);
+                this.state.timer = days + "天" + hours + "时" + minutes + "分" + seconds + "秒";
             }, 1000);
         }
     }
-}
+};
 </script>
 <style lang="less">
 .right {
@@ -63,7 +60,7 @@ export default {
     text-align: center;
 }
 .active_tab::after {
-    content: '';
+    content: "";
     position: absolute;
     display: inline-block;
     width: 90%;
