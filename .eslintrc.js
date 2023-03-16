@@ -19,7 +19,7 @@ module.exports = {
 		"@typescript-eslint"
 	],
 	"rules": {
-		"no-console": "error",
+		"no-console": "warn",
 		"vue/no-reserved-component-names": ["error", {
 			"disallowVueBuiltInComponents": false,
 			"disallowVue3BuiltInComponents": false

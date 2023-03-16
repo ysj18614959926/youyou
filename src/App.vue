@@ -1,6 +1,6 @@
 <template>
   <div>
-    <top-head class="top-head"></top-head>
+    <top-head class="top_head"></top-head>
     <div class="content">
       <router-view></router-view>
     </div>
@@ -33,7 +33,7 @@ export default {
 body {
   margin: 0;
   background-color: @bg_content;
-  .top-head {
+  .top_head {
     position: relative;
     height: 60px;
     background-color: @bg_header;

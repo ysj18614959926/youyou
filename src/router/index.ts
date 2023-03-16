@@ -14,6 +14,11 @@ const routes: Array<RouteRecordRaw> = [
         path: "/home",
         name: "Home",
         component: () => import("@/views/home.vue")
+    },
+    {
+        path: '/kpan',
+        name: 'KPan',
+        component: () => import("@/views/kPan.vue")
     }
 ];
 
