@@ -1,11 +1,12 @@
 <template>
   <div class="home_page">
-    <el-affix :offset="72">
+    <el-affix :offset="72" class="alert_affix">
       <el-alert
         :title="homePage.last_update_time + ' ' + homePage.last_update_content"
         type="success"
         center
         show-icon
+        :closable="false"
       />
     </el-affix>
     <div class="con">
@@ -13,55 +14,84 @@
         <el-tag class="held" size="large">当前持有</el-tag>
         <common-table :data="homePage.held" type="held"></common-table>
       </div>
-      <div class="right">
-        <div class="progress">
-          <el-progress
-            type="dashboard"
-            :percentage="parseFloat(homePage.accuracy)"
-          >
-            <template #default="{ percentage }">
-              <div class="percentage-value">{{ percentage }}%</div>
-              <div class="percentage-label">准确率</div>
-            </template>
-          </el-progress>
-        </div>
-        <div class="profit">
-          <div class="top">
-            <div class="tit">盈利</div>
-            <div class="detail">查看全部</div>
+      <el-affix :offset="122.5">
+        <div class="right">
+          <div class="progress">
+            <el-progress
+              type="dashboard"
+              :percentage="parseFloat(homePage.accuracy)"
+            >
+              <template #default="{ percentage }">
+                <div class="percentage-value">{{ percentage }}%</div>
+                <div class="percentage-label">准确率</div>
+              </template>
+            </el-progress>
           </div>
-          <div
-            class="item"
-            v-for="item in homePage.profit"
-            :key="item"
-            v-html="
-              `${item.code}(${item.name}): ${formatDate(item.buy_datetime)}(${
-                item.buy_price
-              })买入，${formatDate(item.sell_datetime)}(${
-                item.sell_price
-              })卖出，<span>盈利${item.range}</span>`
-            "
-          ></div>
-        </div>
-        <div class="loss">
-          <div class="top">
-            <div class="tit">亏损</div>
-            <div class="detail">查看全部</div>
+          <div class="profit">
+            <div class="top">
+              <div class="tit">盈利</div>
+              <div class="detail">查看全部</div>
+            </div>
+            <el-popover
+              placement="left"
+              title="盈利"
+              :width="900"
+              trigger="hover"
+            >
+              <template #default>
+                <common-table
+                  :data="homePage.profit"
+                  type="profit"
+                ></common-table>
+              </template>
+              <template #reference>
+                <div>
+                  <div
+                    class="item"
+                    v-for="item in homePage.profit"
+                    :key="item"
+                    v-html="
+                      `${item.code}(${item.name}): ${formatDate(
+                        item.buy_datetime
+                      )}(${item.buy_price})买入，${formatDate(
+                        item.sell_datetime
+                      )}(${item.sell_price})卖出，<span>盈利${
+                        item.range
+                      }</span>`
+                    "
+                  ></div>
+                </div>
+              </template>
+            </el-popover>
           </div>
-          <div
-            class="item"
-            v-for="item in homePage.profit"
-            :key="item"
-            v-html="
-              `${item.code}(${item.name}): ${formatDate(item.buy_datetime)}(${
-                item.buy_price
-              })买入，${formatDate(item.sell_datetime)}(${
-                item.sell_price
-              })卖出，<span>亏损${item.range}</span>`
-            "
-          ></div>
+          <div class="loss">
+            <div class="top">
+              <div class="tit">亏损</div>
+              <div class="detail">查看全部</div>
+            </div>
+            <el-popover
+              placement="left"
+              title="亏损"
+              :width="900"
+              trigger="hover"
+            >
+              <template #default>
+                <common-table :data="homePage.loss" type="loss"></common-table>
+              </template>
+              <template #reference>
+                <div>
+                  <div class="item" v-for="item in homePage.loss" :key="item">
+                    {{ item.code }}
+                    {{ `(${item.name})` }}
+                    {{ formatDate(item.sell_datetime, "day") }}卖出
+                    <span>亏损{{ item.range }}</span>
+                  </div>
+                </div>
+              </template>
+            </el-popover>
+          </div>
         </div>
-      </div>
+      </el-affix>
     </div>
   </div>
 </template>
@@ -96,14 +126,14 @@ export default {
   .el-alert__title {
     line-height: 22.5px !important;
   }
-  .el-affix {
-    margin-top: 12px;
+  .alert_affix {
+    width: 100% !important;
   }
   .con {
-    margin-top: 12px;
+    padding-top: 24px;
     display: flex;
     .left {
-      width: 70%;
+      flex: 1;
       padding-right: 12px;
       box-sizing: border-box;
       .held {
@@ -113,7 +143,7 @@ export default {
     }
     .right {
       font-size: 14px;
-      flex: 1;
+      width: 400px;
       .progress,
       .profit,
       .loss {
@@ -152,13 +182,17 @@ export default {
         }
         .item {
           margin-top: 8px;
+          .el-progress__text {
+            margin-left: 12px;
+          }
         }
       }
-      .profit > .item > span {
+      .profit .item span {
         color: #d20;
       }
-      .loss > .item > span {
+      .loss .item span {
         color: #383;
+        font-weight: bold;
       }
     }
   }

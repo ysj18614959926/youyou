@@ -38,6 +38,33 @@ const homePage = {
                 "sell_datetime": "1679018646000",
                 "sell_price": "3177",
                 "range": "1.14%"
+            },
+            {
+                "code": "SZ399006",
+                "name": "创业板etf",
+                "buy_datetime": "1679018646000",
+                "buy_price": "3166",
+                "sell_datetime": "1679018646000",
+                "sell_price": "3177",
+                "range": "1.1%"
+            },
+            {
+                "code": "SZ399007",
+                "name": "创业板etf",
+                "buy_datetime": "1679018646000",
+                "buy_price": "3166",
+                "sell_datetime": "1679018646000",
+                "sell_price": "3177",
+                "range": "1.14%"
+            },
+            {
+                "code": "SZ399006",
+                "name": "创业板etf",
+                "buy_datetime": "1679018646000",
+                "buy_price": "3166",
+                "sell_datetime": "1679018646000",
+                "sell_price": "3177",
+                "range": "1.1%"
             }
         ],
         "loss": [
@@ -48,10 +75,37 @@ const homePage = {
                 "buy_price": "3177",
                 "sell_datetime": "16790186460000",
                 "sell_price": "3166",
-                "range": "-1.1%"
+                "range": "-3.1%"
             },
             {
                 "code": "SZ399007",
+                "name": "创业板etf",
+                "buy_datetime": "16790186460000",
+                "buy_price": "3177",
+                "sell_datetime": "16790186460000",
+                "sell_price": "3166",
+                "range": "-10.1%"
+            },
+            {
+                "code": "SZ399006",
+                "name": "创业板etf",
+                "buy_datetime": "16790186460000",
+                "buy_price": "3177",
+                "sell_datetime": "16790186460000",
+                "sell_price": "3166",
+                "range": "-0.1%"
+            },
+            {
+                "code": "SZ399007",
+                "name": "创业板etf",
+                "buy_datetime": "16790186460000",
+                "buy_price": "3177",
+                "sell_datetime": "16790186460000",
+                "sell_price": "3166",
+                "range": "-1.1%"
+            },
+            {
+                "code": "SZ399006",
                 "name": "创业板etf",
                 "buy_datetime": "16790186460000",
                 "buy_price": "3177",
