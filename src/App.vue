@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-loading="isLoad" element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="Loading...">
     <top-head class="top_head"></top-head>
     <div class="content">
       <router-view></router-view>
@@ -18,11 +18,19 @@ export default {
   created() {
     this.initPage();
   },
+  computed: {
+    isLoad() {
+      return this.$store.state.isLoad;
+    }
+  },
   methods: {
     initPage() {
-      const { errno, data } = homePage;
-      if (errno == 0) {
+      const { error_num, data } = homePage;
+      if (error_num == 0) {
         this.$store.commit("updateHomePage", data);
+        setTimeout(() => {
+          this.$store.commit("updateLoad", false);
+        }, 200);
       }
     },
   },

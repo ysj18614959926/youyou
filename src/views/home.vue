@@ -2,11 +2,7 @@
   <div class="home_page">
     <el-affix :offset="72">
       <el-alert
-        :title="
-          formatDate(homePage.last_update_time) +
-          ' ' +
-          homePage.last_update_content
-        "
+        :title="homePage.last_update_time + ' ' + homePage.last_update_content"
         type="success"
         center
         show-icon
@@ -14,7 +10,42 @@
     </el-affix>
 
     <div class="con">
-      <div class="left">left</div>
+      <div class="left">
+        <el-table
+          :data="homePage.held"
+          style="width: 100%"
+          border
+          stripe
+          highlight-current-row
+        >
+          <el-table-column
+            align="center"
+            prop="code"
+            label="股票代码"
+            sortable
+            width="180"
+          />
+          <el-table-column align="center" prop="name" label="名称" />
+          <el-table-column align="center" label="买入时间">
+            <template #default="scope">
+              {{ formatDate(scope.row.buy_datetime) }}
+            </template>
+          </el-table-column>
+          <el-table-column align="center" prop="buy_price" label="买入价格" />
+          <el-table-column align="center" label="盈亏">
+            <template #default="scope">
+              <div
+                :class="[
+                  'range',
+                  scope.row.range.indexOf('-') == -1 ? 'profit' : 'loss',
+                ]"
+              >
+                {{ scope.row.range }}
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <div class="right">right</div>
     </div>
   </div>
@@ -37,10 +68,15 @@ export default {
         let h = d.getHours();
         let m = d.getMinutes();
         let s = d.getSeconds();
-        return `${Y}年${M}月${D}日 ${h}时${m}分${s}秒`;
+        return `${Y}/${this.initBit(M)}/${D} ${this.initBit(h)}:${this.initBit(
+          m
+        )}:${this.initBit(s)}`;
       } else {
         return "-";
       }
+    },
+    initBit(num) {
+      return num > 9 ? num : "0" + num;
     },
   },
 };
@@ -63,6 +99,18 @@ export default {
       width: 70%;
       height: 1200px;
       border: 1px solid #000;
+      .range {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        justify-content: center;
+      }
+      .profit {
+        color: #d20;
+      }
+      .loss {
+        color: #383;
+      }
     }
   }
 }
