@@ -23,6 +23,7 @@ const homePage = {
         "profit": [
             {
                 "code": "SZ399006",
+                "name": "创业板etf",
                 "buy_datetime": "1679018646000",
                 "buy_price": "3166",
                 "sell_datetime": "1679018646000",
@@ -31,6 +32,7 @@ const homePage = {
             },
             {
                 "code": "SZ399007",
+                "name": "创业板etf",
                 "buy_datetime": "1679018646000",
                 "buy_price": "3166",
                 "sell_datetime": "1679018646000",
@@ -41,6 +43,7 @@ const homePage = {
         "loss": [
             {
                 "code": "SZ399006",
+                "name": "创业板etf",
                 "buy_datetime": "16790186460000",
                 "buy_price": "3177",
                 "sell_datetime": "16790186460000",
@@ -49,6 +52,7 @@ const homePage = {
             },
             {
                 "code": "SZ399007",
+                "name": "创业板etf",
                 "buy_datetime": "16790186460000",
                 "buy_price": "3177",
                 "sell_datetime": "16790186460000",

@@ -30,7 +30,36 @@
             <div class="tit">盈利</div>
             <div class="detail">查看全部</div>
           </div>
-          <common-table :data="homePage.held" type="profit"></common-table>
+          <div
+            class="item"
+            v-for="item in homePage.profit"
+            :key="item"
+            v-html="
+              `${item.code}(${item.name}): ${formatDate(item.buy_datetime)}(${
+                item.buy_price
+              })买入，${formatDate(item.sell_datetime)}(${
+                item.sell_price
+              })卖出，<span>盈利${item.range}</span>`
+            "
+          ></div>
+        </div>
+        <div class="loss">
+          <div class="top">
+            <div class="tit">亏损</div>
+            <div class="detail">查看全部</div>
+          </div>
+          <div
+            class="item"
+            v-for="item in homePage.profit"
+            :key="item"
+            v-html="
+              `${item.code}(${item.name}): ${formatDate(item.buy_datetime)}(${
+                item.buy_price
+              })买入，${formatDate(item.sell_datetime)}(${
+                item.sell_price
+              })卖出，<span>亏损${item.range}</span>`
+            "
+          ></div>
         </div>
       </div>
     </div>
@@ -38,8 +67,14 @@
 </template>
 <script>
 import CommonTable from "../components/commonTable.vue";
+import { formatDate } from "../utils/utils";
 export default {
   name: "homePage",
+  setup() {
+    return {
+      formatDate,
+    };
+  },
   components: {
     CommonTable,
   },
@@ -68,7 +103,7 @@ export default {
     margin-top: 12px;
     display: flex;
     .left {
-      width: 60%;
+      width: 70%;
       padding-right: 12px;
       box-sizing: border-box;
       .held {
@@ -97,15 +132,16 @@ export default {
           stroke: @theme_blue;
         }
       }
-      .profit {
+      .profit,
+      .loss {
         margin-top: 12px;
         padding: 0 12px 12px;
         box-sizing: border-box;
         .top {
+          padding-top: 12px;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 50px;
           .tit {
             font-weight: bold;
           }
@@ -114,6 +150,15 @@ export default {
             cursor: pointer;
           }
         }
+        .item {
+          margin-top: 8px;
+        }
+      }
+      .profit > .item > span {
+        color: #d20;
+      }
+      .loss > .item > span {
+        color: #383;
       }
     }
   }

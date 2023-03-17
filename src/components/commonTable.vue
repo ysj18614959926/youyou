@@ -39,28 +39,13 @@
   </el-table>
 </template>
 <script>
+import { formatDate } from "../utils/utils";
 export default {
   props: ["data", "type"],
-  methods: {
-    formatDate(timeStamp) {
-      if (timeStamp) {
-        let d = new Date(Number(timeStamp));
-        let Y = d.getFullYear();
-        let M = d.getMonth();
-        let D = d.getDate();
-        let h = d.getHours();
-        let m = d.getMinutes();
-        let s = d.getSeconds();
-        return `${Y}/${this.initBit(M)}/${D} ${this.initBit(h)}:${this.initBit(
-          m
-        )}:${this.initBit(s)}`;
-      } else {
-        return "-";
-      }
-    },
-    initBit(num) {
-      return num > 9 ? num : "0" + num;
-    },
+  setup() {
+    return {
+      formatDate,
+    };
   },
 };
 </script>
