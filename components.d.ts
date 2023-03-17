@@ -9,11 +9,14 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    CommonTable: typeof import('./src/components/commonTable.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAlert: typeof import('element-plus/es')['ElAlert']
     ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElProgress: typeof import('element-plus/es')['ElProgress']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTag: typeof import('element-plus/es')['ElTag']
     IEpBottom: typeof import('~icons/ep/bottom')['default']
     IEpCaretBottom: typeof import('~icons/ep/caret-bottom')['default']
     IEpCirclePlus: typeof import('~icons/ep/circle-plus')['default']

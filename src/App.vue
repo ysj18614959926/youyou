@@ -39,6 +39,7 @@ export default {
 
 <style lang="less">
 body {
+  color: @font_tit;
   margin: 0;
   background-color: @bg_content;
   .top_head {
@@ -55,7 +56,7 @@ body {
     box-sizing: border-box;
     height: calc(100vh - 60px);
     overflow: auto;
-    padding: 12px;
+    padding: 0 12px 12px;
   }
 }
 </style>
