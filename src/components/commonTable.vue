@@ -61,7 +61,13 @@ export default {
   },
   methods: {
     handleClick(item) {
-      console.log(item);
+      this.$router.push({
+        path: '/kpan',
+        query: {
+          code: item.code,
+          type: 'single'
+        }
+      });
     }
   }
 };

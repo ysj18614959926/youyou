@@ -2,7 +2,7 @@
   <div v-loading="isLoad" element-loading-background="rgba(0, 0, 0, 0.3)" element-loading-text="Loading...">
     <top-head class="top_head"></top-head>
     <div class="content">
-      <router-view></router-view>
+      <router-view v-if="isShow"></router-view>
     </div>
   </div>
 </template>
@@ -21,6 +21,14 @@ export default {
   computed: {
     isLoad() {
       return this.$store.state.isLoad;
+    },
+    isShow() {
+      return this.$store.state.isShow;
+    }
+  },
+  watch: {
+    '$route.fullPath': function() {
+      this.$store.commit("reloadPage");
     }
   },
   methods: {

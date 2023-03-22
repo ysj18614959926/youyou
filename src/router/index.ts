@@ -19,6 +19,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '/kpan',
         name: 'KPan',
         component: () => import("@/views/kPan.vue")
+    },
+    {
+        path: '/overview',
+        name: 'OverView',
+        component: () => import("@/views/overView.vue")
     }
 ];
 

@@ -13,9 +13,11 @@ declare module '@vue/runtime-core' {
     ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAlert: typeof import('element-plus/es')['ElAlert']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElPopover: typeof import('element-plus/es')['ElPopover']
     ElProgress: typeof import('element-plus/es')['ElProgress']
+    ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
@@ -24,9 +26,11 @@ declare module '@vue/runtime-core' {
     IEpCirclePlus: typeof import('~icons/ep/circle-plus')['default']
     IEpMinus: typeof import('~icons/ep/minus')['default']
     IEpPlus: typeof import('~icons/ep/plus')['default']
+    KLine: typeof import('./src/components/kLine.vue')['default']
     ProfitOverview: typeof import('./src/components/profitOverview.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ToDo: typeof import('./src/components/toDo.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

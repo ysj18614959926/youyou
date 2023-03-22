@@ -4,7 +4,7 @@
       <div
         v-for="item in tabList"
         :key="item.value"
-        :class="['tab', state.currTab == item.value ? 'active_tab' : '']"
+        :class="['tab', $route.path == item.value ? 'active_tab' : '']"
         @click="changeTab(item)"
       >
         {{ item.label }}
@@ -45,6 +45,7 @@ export default {
     };
   },
   created() {
+    this.state.currTab = this.$route.path;
     this.runTime();
   },
   methods: {
@@ -65,9 +66,6 @@ export default {
       }, 1000);
     },
     changeTab(item) {
-      if (this.state.currTab == item.value) {
-        return;
-      }
       this.state.currTab = item.value;
       this.$router.push(item.value);
     },
