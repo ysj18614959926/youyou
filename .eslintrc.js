@@ -26,6 +26,8 @@ module.exports = {
 		}],
 		"vue/no-multiple-template-root": 'off',
 		"semi": "warn",
-		"no-trailing-spaces": "error"
+		"no-trailing-spaces": "error",
+		"no-undef": "off",
+		"no-redeclare": "off"
 	}
 };

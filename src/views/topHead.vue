@@ -21,19 +21,23 @@ import { reactive } from "vue";
 const tabList = [
   {
     label: "首页",
-    value: "index",
+    value: "/",
   },
   {
     label: "看盘",
-    value: "kpan",
+    value: "/kpan",
   },
+  {
+    label: "盈亏总览",
+    value: '/overview'
+  }
 ];
 export default {
   name: "topPage",
   setup() {
     const state = reactive({
       timer: "-天-时-分-秒",
-      currTab: "index",
+      currTab: "/",
     });
     return {
       state,
@@ -65,7 +69,7 @@ export default {
         return;
       }
       this.state.currTab = item.value;
-      this.$router.push(item.value == "index" ? "/" : "/kpan");
+      this.$router.push(item.value);
     },
   },
 };

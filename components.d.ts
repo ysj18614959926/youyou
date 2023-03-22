@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     IEpCirclePlus: typeof import('~icons/ep/circle-plus')['default']
     IEpMinus: typeof import('~icons/ep/minus')['default']
     IEpPlus: typeof import('~icons/ep/plus')['default']
+    ProfitOverview: typeof import('./src/components/profitOverview.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
