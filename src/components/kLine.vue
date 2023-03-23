@@ -1,5 +1,5 @@
 <template>
-  <div id="k_line_echars"></div>
+  <div id="k_line_echars" style="width: 800px; height: 600px"></div>
 </template>
 <script>
 export default {
@@ -13,12 +13,297 @@ export default {
   },
   methods: {
     initPage() {
-        // 初始化echarts实例对象
-      var myCharts = this.$echarts.init(document.getElementById("k_line_echars"));
+      let k_data = [];
+      this.data.forEach((item) => {
+        k_data.push([item.open, item.close, item.low, item.high]); // open,close,low,high
+      });
+      // 初始化echarts实例对象
+      var myCharts = this.$echarts.init(
+        document.getElementById("k_line_echars")
+      );
       //准备配置项
-      let option = {};
+      let option = {
+        legend: {
+          top: 5,
+          left: "right",
+          data: ["MA5", "MA10"],
+        },
+        dataZoom: [
+          {
+            type: "inside",
+            xAxisIndex: [0, 1],
+            start: 0,
+            end: 100,
+          },
+          {
+            show: true,
+            xAxisIndex: [0, 1],
+            type: "slider",
+            top: "90%",
+            start: 98,
+            end: 100,
+          },
+        ],
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+          },
+          borderWidth: 1,
+          borderColor: "#ccc",
+          padding: 10,
+          textStyle: {
+            color: "#000",
+          },
+          position: function (pos, params, el, elRect, size) {
+            const obj = {
+              top: 10,
+            };
+            obj[["left", "right"][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+            return obj;
+          },
+        },
+        axisPointer: {
+          link: [
+            {
+              xAxisIndex: "all",
+            },
+          ],
+          label: {
+            backgroundColor: "#777",
+          },
+        },
+        toolbox: {
+          show: false,
+        },
+        grid: [
+          {
+            left: "10%",
+            right: "8%",
+            height: "50%",
+          },
+          {
+            left: "10%",
+            right: "8%",
+            top: "65%",
+            height: "16%",
+          },
+        ],
+        xAxis: [
+          {
+            gridIndex: 0,
+            type: "category",
+            show: false,
+            data: this.data.map((it) => {
+              return this.getLocalTime(it.timestamp);
+            }),
+          },
+          {
+            gridIndex: 1,
+            type: "category",
+            axisLine: {
+              onZero: false,
+            },
+            data: this.data.map((it) => {
+              return this.getLocalTime(it.timestamp);
+            }),
+          },
+        ],
+        yAxis: [
+          {
+            gridIndex: 0,
+            scale: true,
+          },
+          {
+            type: "value",
+            scale: true,
+            gridIndex: 1,
+            axisTick: {
+              alignWithLabel: true,
+            },
+          },
+        ],
+        series: [
+          {
+            name: "k",
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            type: "candlestick",
+            data: k_data,
+          },
+          {
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            name: "MA5",
+            type: "line",
+            data: this.data.map((it) => it.ma5),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            name: "MA10",
+            type: "line",
+            data: this.data.map((it) => it.ma10),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            name: "MA20",
+            type: "line",
+            data: this.data.map((it) => it.ma20),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            name: "ma30",
+            type: "line",
+            data: this.data.map((it) => it.ma30),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            name: "UP",
+            type: "line",
+            data: this.data.map((it) => it.up),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 0,
+            yAxisIndex: 0,
+            name: "LOW",
+            type: "line",
+            data: this.data.map((it) => it.low),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            name: "DEA",
+            type: "line",
+            data: this.data.map((it) => it.dea),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            name: "DIF",
+            type: "line",
+            data: this.data.map((it) => it.dif),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            name: "MACD",
+            type: "bar",
+            barWidth: "1px",
+            itemStyle: {
+              //柱体背景色
+              normal: {
+                color: (val) => {
+                  var index_color = val.value;
+                  return index_color > 0 ? "#E93030" : "#229D45";
+                },
+              },
+            },
+            data: this.data.map((it) => it.macd),
+          },
+          {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            name: "K",
+            type: "line",
+            data: this.data.map((it) => it.kdjk),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            name: "D",
+            type: "line",
+            data: this.data.map((it) => it.kdjd),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            name: "J",
+            type: "line",
+            data: this.data.map((it) => it.kdjj),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+        ],
+      };
       //将配置项设置给echarts实例对象
       myCharts.setOption(option);
+    },
+    getLocalTime(nS) {
+      var date = new Date(Number(nS));
+      let M =
+        (date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1) + "-";
+      let D = date.getDate() < 10 ? "0" + date.getDate() : date.getDate() + " ";
+      return M + D;
     },
   },
 };

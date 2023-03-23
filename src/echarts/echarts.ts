@@ -6,7 +6,8 @@ import {
     VisualMapComponent,
     LegendComponent,
     BrushComponent,
-    DataZoomComponent
+    DataZoomComponent,
+    TitleComponent
 } from 'echarts/components';
 import { BarChart, CandlestickChart, LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
@@ -18,15 +19,13 @@ echarts.use([
     CanvasRenderer,
     TooltipComponent,
     ToolboxComponent,
-    TooltipComponent,
     VisualMapComponent,
     LegendComponent,
     BrushComponent,
     DataZoomComponent,
     CandlestickChart,
     LineChart,
-    BarChart,
-    CanvasRenderer,
-    UniversalTransition
+    UniversalTransition,
+    TitleComponent
 ]);
 export default echarts;
