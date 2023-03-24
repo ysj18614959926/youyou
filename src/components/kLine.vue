@@ -1,12 +1,15 @@
 <template>
-  <div id="k_line_echars" style="width: 800px; height: 600px"></div>
+  <div id="k_line_echars" style="width: 100%; height: 100%"></div>
 </template>
 <script>
 export default {
   name: "kLine",
-  props: ["data"],
+  props: ["data", "buySellInfo"],
   setup() {
-    return {};
+    let state = {};
+    return {
+      state,
+    };
   },
   mounted() {
     this.initPage();
@@ -18,32 +21,28 @@ export default {
         k_data.push([item.open, item.close, item.low, item.high]); // open,close,low,high
       });
       // 初始化echarts实例对象
-      var myCharts = this.$echarts.init(
+      let myCharts = this.$echarts.init(
         document.getElementById("k_line_echars")
       );
       //准备配置项
       let option = {
-        legend: {
-          top: 5,
-          left: "right",
-          data: ["MA5", "MA10"],
-        },
-        dataZoom: [
-          {
-            type: "inside",
-            xAxisIndex: [0, 1],
-            start: 0,
-            end: 100,
-          },
-          {
-            show: true,
-            xAxisIndex: [0, 1],
-            type: "slider",
-            top: "90%",
-            start: 98,
-            end: 100,
-          },
-        ],
+        // 缩放
+        // dataZoom: [
+        //   // {
+        //   //   type: "inside",
+        //   //   xAxisIndex: [0, 1],
+        //   //   start: 0,
+        //   //   end: 100,
+        //   // },
+        //   {
+        //     show: true,
+        //     xAxisIndex: [0, 1],
+        //     type: "slider",
+        //     bottom: "2%",
+        //     start: 0,
+        //     end: 100,
+        //   },
+        // ],
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -78,15 +77,28 @@ export default {
         },
         grid: [
           {
-            left: "10%",
-            right: "8%",
-            height: "50%",
+            top: "5%",
+            left: "8%",
+            right: "4%",
+            height: "32%",
           },
           {
-            left: "10%",
-            right: "8%",
-            top: "65%",
-            height: "16%",
+            left: "8%",
+            right: "4%",
+            top: "42%",
+            height: "10%",
+          },
+          {
+            left: "8%",
+            right: "6%",
+            top: "57%",
+            height: "10%",
+          },
+          {
+            left: "8%",
+            right: "6%",
+            top: "72%",
+            height: "12%",
           },
         ],
         xAxis: [
@@ -100,6 +112,22 @@ export default {
           },
           {
             gridIndex: 1,
+            type: "category",
+            show: false,
+            data: this.data.map((it) => {
+              return this.getLocalTime(it.timestamp);
+            }),
+          },
+          {
+            gridIndex: 2,
+            type: "category",
+            show: false,
+            data: this.data.map((it) => {
+              return this.getLocalTime(it.timestamp);
+            }),
+          },
+          {
+            gridIndex: 3,
             type: "category",
             axisLine: {
               onZero: false,
@@ -122,6 +150,22 @@ export default {
               alignWithLabel: true,
             },
           },
+          {
+            type: "value",
+            scale: true,
+            gridIndex: 2,
+            axisTick: {
+              alignWithLabel: true,
+            },
+          },
+          {
+            type: "value",
+            scale: true,
+            gridIndex: 3,
+            axisTick: {
+              alignWithLabel: true,
+            },
+          },
         ],
         series: [
           {
@@ -130,6 +174,36 @@ export default {
             yAxisIndex: 0,
             type: "candlestick",
             data: k_data,
+            markPoint: {
+              data: [
+                {
+                  name: 'buy',
+                  value: 'B',
+                  xAxis: this.data.findIndex(it => it.timestamp == this.buySellInfo.buy_datetime),
+                  yAxis: this.data.find(it => it.timestamp == this.buySellInfo.buy_datetime).open,
+                  symbolSize: 30,
+                  itemStyle: {
+                    color: '#d20'
+                  },
+                  label: {
+                    color: '#FFF'
+                  }
+                },
+                {
+                  name: 'sell',
+                  value: 'S',
+                  xAxis: this.data.findIndex(it => it.timestamp == this.buySellInfo.sell_datetime),
+                  yAxis: this.data.find(it => it.timestamp == this.buySellInfo.sell_datetime)?.open,
+                  symbolSize: 30,
+                  itemStyle: {
+                    color: '#383'
+                  },
+                  label: {
+                    color: '#FFF'
+                  }
+                }
+              ],
+            },
           },
           {
             xAxisIndex: 0,
@@ -184,24 +258,11 @@ export default {
             },
           },
           {
-            xAxisIndex: 0,
-            yAxisIndex: 0,
+            xAxisIndex: 1,
+            yAxisIndex: 1,
             name: "UP",
             type: "line",
-            data: this.data.map((it) => it.up),
-            symbol: "none",
-            smooth: true,
-            lineStyle: {
-              opacity: 0.5,
-              width: 1,
-            },
-          },
-          {
-            xAxisIndex: 0,
-            yAxisIndex: 0,
-            name: "LOW",
-            type: "line",
-            data: this.data.map((it) => it.low),
+            data: this.data.map((it) => it.ub),
             symbol: "none",
             smooth: true,
             lineStyle: {
@@ -212,6 +273,32 @@ export default {
           {
             xAxisIndex: 1,
             yAxisIndex: 1,
+            name: "LOW",
+            type: "line",
+            data: this.data.map((it) => it.lb),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 1,
+            yAxisIndex: 1,
+            name: "MID",
+            type: "line",
+            data: this.data.map((it) => it.b_ma20),
+            symbol: "none",
+            smooth: true,
+            lineStyle: {
+              opacity: 0.5,
+              width: 1,
+            },
+          },
+          {
+            xAxisIndex: 2,
+            yAxisIndex: 2,
             name: "DEA",
             type: "line",
             data: this.data.map((it) => it.dea),
@@ -223,8 +310,8 @@ export default {
             },
           },
           {
-            xAxisIndex: 1,
-            yAxisIndex: 1,
+            xAxisIndex: 2,
+            yAxisIndex: 2,
             name: "DIF",
             type: "line",
             data: this.data.map((it) => it.dif),
@@ -236,8 +323,8 @@ export default {
             },
           },
           {
-            xAxisIndex: 1,
-            yAxisIndex: 1,
+            xAxisIndex: 2,
+            yAxisIndex: 2,
             name: "MACD",
             type: "bar",
             barWidth: "1px",
@@ -253,8 +340,8 @@ export default {
             data: this.data.map((it) => it.macd),
           },
           {
-            xAxisIndex: 1,
-            yAxisIndex: 1,
+            xAxisIndex: 3,
+            yAxisIndex: 3,
             name: "K",
             type: "line",
             data: this.data.map((it) => it.kdjk),
@@ -266,8 +353,8 @@ export default {
             },
           },
           {
-            xAxisIndex: 1,
-            yAxisIndex: 1,
+            xAxisIndex: 3,
+            yAxisIndex: 3,
             name: "D",
             type: "line",
             data: this.data.map((it) => it.kdjd),
@@ -279,8 +366,8 @@ export default {
             },
           },
           {
-            xAxisIndex: 1,
-            yAxisIndex: 1,
+            xAxisIndex: 3,
+            yAxisIndex: 3,
             name: "J",
             type: "line",
             data: this.data.map((it) => it.kdjj),

@@ -24,9 +24,9 @@ export default {
   },
   methods: {
     initView() {
-      let list = this.itemType == "profit" ? this.profitData : this.lossData.map(it => {return {...it, range: it.range.replace('-', '')};});
+      let list = this.itemType == "profit" ? this.profitData : this.lossData.map(it => {return {...it, area_change: it.area_change.replace('-', '')};});
       let xData = list.map((it) => it.name);
-      let yData = list.map((it) => parseFloat(it.range));
+      let yData = list.map((it) => parseFloat(it.area_change));
       let chartDom = document.getElementById(
         `profit_and_loss_overview-${this.itemType}`
       );

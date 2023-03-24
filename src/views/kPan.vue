@@ -1,13 +1,20 @@
 <template>
-  <div v-if="state.query.type == 'single'">
-    <to-do></to-do>
+  <div class="kpan_single" v-if="query.type == 'single'">
+    <el-card class="box_card">
+        <template #header>
+          <div class="card-header">
+            {{state.curr.name}}
+          </div>
+        </template>
+        <k-line :data="kLineData.data" :buySellInfo="state.buySellInfo"></k-line>
+      </el-card>
   </div>
   <div class="kpan_all" v-else>
     <div class="left">
       <div class="held">当前持有</div>
       <el-scrollbar>
-        <div class="l_item" v-for="item in homePage.held" :key="item.code">
-          <span>{{ item.name }}</span>
+        <div class="l_item" v-for="item in homePage.held" :key="item.code" :class="state.curr.code == item.code ? 'active' : ''">
+          <span @click="changeItem(item)">{{ item.name }}</span>
         </div>
       </el-scrollbar>
     </div>
@@ -15,10 +22,10 @@
       <el-card class="box_card">
         <template #header>
           <div class="card-header">
-            创业板指数
+            {{state.curr.name}}
           </div>
         </template>
-        <k-line :data="kLineData.data"></k-line>
+        <k-line :data="kLineData.data" :buySellInfo="state.buySellInfo"></k-line>
       </el-card>
     </div>
   </div>
@@ -26,17 +33,18 @@
 <script>
 import { kLine as kLineData } from "../mock/mock";
 import kLine from '../components/kLine.vue';
-import toDo from '../components/toDo.vue';
+import { reactive } from 'vue';
+
 export default {
   name: "kPan",
   components: {
-    kLine,
-    toDo
+    kLine
   },
   setup() {
-    const state = {
-      query: ""
-    };
+    const state = reactive({
+      curr: {},
+      buySellInfo: {}
+    });
     return {
       state,
       kLineData
@@ -46,10 +54,28 @@ export default {
     homePage() {
       return this.$store.state.homePage;
     },
+    query() {
+      return this.$route.query;
+    }
   },
   created() {
-    this.state.query = this.$route.query;
+    if (this.query.type != 'single') {
+      this.state.curr = this.homePage.held[0];
+      this.state.buySellInfo = this.homePage.held[0];
+    } else {
+      this.state.curr = {
+        code: this.query.code,
+        name: this.query.name
+      };
+      this.state.buySellInfo = {...this.homePage[this.query.data_type].find(it => it.code == this.query.code)};
+    }
   },
+  methods: {
+    changeItem(item) {
+      this.state.curr = item;
+      this.state.buySellInfo = item;
+    }
+  }
 };
 </script>
 <style lang="less">
@@ -76,12 +102,16 @@ export default {
       height: calc(100vh - 125px);
     }
     .l_item {
-      height: 28px;
-      line-height: 28px;
+      height: 34px;
+      line-height: 34px;
       text-align: center;
       span {
         cursor: pointer;
       }
+    }
+    .active {
+      color: @theme_blue;
+      font-weight: bold;
     }
   }
   .right {
@@ -89,11 +119,29 @@ export default {
     width: 100%;
     .box_card {
         width: 100%;
+        height: calc(100vh - 86px);
         background: #ffffff80!important;
         .el-card__header, .el-card__body {
             padding: 12px;
         }
+        .el-card__body {
+          height: calc(100% - 72px);
+        }
     }
   }
+}
+.kpan_single {
+  margin-top: 12px;
+  .box_card {
+        width: 100%;
+        height: calc(100vh - 86px);
+        background: #ffffff80!important;
+        .el-card__header, .el-card__body {
+            padding: 12px;
+        }
+        .el-card__body {
+          height: calc(100% - 72px);
+        }
+    }
 }
 </style>

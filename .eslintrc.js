@@ -28,6 +28,7 @@ module.exports = {
 		"semi": "warn",
 		"no-trailing-spaces": "error",
 		"no-undef": "off",
-		"no-redeclare": "off"
+		"no-redeclare": "off",
+		"vue/no-unused-components": "off"
 	}
 };

@@ -7,7 +7,8 @@ import {
     LegendComponent,
     BrushComponent,
     DataZoomComponent,
-    TitleComponent
+    TitleComponent,
+    MarkPointComponent
 } from 'echarts/components';
 import { BarChart, CandlestickChart, LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
@@ -26,6 +27,7 @@ echarts.use([
     CandlestickChart,
     LineChart,
     UniversalTransition,
-    TitleComponent
+    TitleComponent,
+    MarkPointComponent
 ]);
 export default echarts;

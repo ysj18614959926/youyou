@@ -29,11 +29,11 @@
       <template #default="scope">
         <div
           :class="[
-            'range',
-            scope.row.range.indexOf('-') == -1 ? 'profit_txt' : 'loss_txt',
+            'area_change',
+            scope.row.area_change.indexOf('-') == -1 ? 'profit_txt' : 'loss_txt',
           ]"
         >
-          {{ scope.row.range }}
+          {{ scope.row.area_change }}
         </div>
       </template>
     </el-table-column>
@@ -65,6 +65,7 @@ export default {
         path: '/kpan',
         query: {
           code: item.code,
+          data_type: this.type,
           type: 'single'
         }
       });
@@ -74,7 +75,7 @@ export default {
 </script>
 <style lang="less">
 .common_table {
-  .range {
+  .area_change {
     display: flex;
     align-items: center;
     font-weight: bold;
