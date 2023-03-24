@@ -7,8 +7,8 @@ const formatDate = (timeStamp:any, type: string) => {
         const h = d.getHours();
         const m = d.getMinutes();
         const s = d.getSeconds();
-        if (type == 'day') {
-            return `${Y}/${initBit(M)}/${D}`;
+        if (type == 'date') {
+            return `${Y}.${M}.${initBit(D)}`;
         }
         return `${Y}/${initBit(M)}/${D} ${initBit(h)}:${initBit(m)}:${initBit(s)}`;
     }

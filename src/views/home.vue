@@ -12,7 +12,11 @@
     <div class="con">
       <div class="left">
         <el-tag class="held" size="large">当前持有</el-tag>
-        <common-table :data="homePage.held" type="held"></common-table>
+        <common-table
+          :data="homePage.held"
+          :column="heldColumn"
+          type="held"
+        ></common-table>
       </div>
       <el-affix :offset="122.5">
         <div class="right">
@@ -31,11 +35,12 @@
             <div class="top">
               <div class="tit">盈利Top5</div>
             </div>
-            <el-popover
-              placement="left"
-              :width="900"
-              trigger="hover"
-            >
+            <common-table
+              :data="homePage.profit"
+              :column="lossColumn"
+              type="profit"
+            ></common-table>
+            <!-- <el-popover placement="left" :width="900" trigger="hover">
               <template #default>
                 <common-table
                   :data="homePage.profit"
@@ -45,27 +50,17 @@
               <template #reference>
                 <profit-overview itemType="profit"></profit-overview>
               </template>
-            </el-popover>
+            </el-popover> -->
           </div>
           <div class="profit_and_loss">
             <div class="top">
               <div class="tit">亏损Top5</div>
             </div>
-            <el-popover
-              placement="left"
-              :width="900"
-              trigger="hover"
-            >
-              <template #default>
-                <common-table
-                  :data="homePage.loss"
-                  type="loss"
-                ></common-table>
-              </template>
-              <template #reference>
-                <profit-overview itemType="loss"></profit-overview>
-              </template>
-            </el-popover>
+            <common-table
+              :data="homePage.loss"
+              :column="lossColumn"
+              type="loss"
+            ></common-table>
           </div>
         </div>
       </el-affix>
@@ -76,11 +71,69 @@
 import CommonTable from "../components/commonTable.vue";
 import { formatDate } from "../utils/utils";
 import profitOverview from "../components/profitOverview.vue";
+const heldColumn = [
+  {
+    key: "code",
+    label: "股票代码",
+    sortable: true,
+    type: "value",
+  },
+  {
+    key: "name",
+    label: "股票名",
+    sortable: true,
+    type: "value",
+  },
+  {
+    key: "buy_datetime",
+    label: "买入时间",
+    sortable: true,
+    type: "time",
+  },
+  {
+    key: "buy_price",
+    label: "买入价格",
+    type: "value",
+  },
+  {
+    key: "area_change",
+    label: "涨幅",
+    type: "change",
+  },
+];
+const lossColumn = [
+  {
+    key: "name",
+    label: "股票名",
+    type: "value",
+  },
+  {
+    key: "buy_datetime",
+    label: "买/卖时间",
+    type: "double_date",
+    value: ['buy_datetime', 'sell_datetime'],
+    width: 150
+  },
+  {
+    key: "buy_price",
+    label: "买/卖价格",
+    type: "double",
+    value: ['buy_price', 'sell_price']
+  },
+  {
+    key: "area_change",
+    label: "亏损",
+    type: "change",
+    width: '40'
+  },
+];
 export default {
   name: "homePage",
   setup() {
     return {
       formatDate,
+      heldColumn,
+      lossColumn
     };
   },
   components: {
@@ -122,7 +175,7 @@ export default {
     }
     .right {
       font-size: 14px;
-      width: 400px;
+      width: 470px;
       .progress,
       .profit_and_loss {
         background-color: @theme_white;
@@ -145,7 +198,7 @@ export default {
         padding: 0 12px 12px;
         box-sizing: border-box;
         .top {
-          padding-top: 12px;
+          padding: 12px;
           display: flex;
           align-items: center;
           justify-content: space-between;
