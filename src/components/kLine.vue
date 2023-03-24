@@ -180,7 +180,7 @@ export default {
                   name: 'buy',
                   value: 'B',
                   xAxis: this.data.findIndex(it => it.timestamp == this.buySellInfo.buy_datetime),
-                  yAxis: this.data.find(it => it.timestamp == this.buySellInfo.buy_datetime).open,
+                  yAxis: this.data.find(it => it.timestamp == this.buySellInfo.buy_datetime)?.open,
                   symbolSize: 30,
                   itemStyle: {
                     color: '#d20'
